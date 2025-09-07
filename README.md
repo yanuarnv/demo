@@ -1,29 +1,65 @@
-# API Spec
+# 📑 API Specification
 
-## Authentication
-
-All API must use this authentication
+## 🔹 Get All Articles
 
 Request :
+- Method : GET
+- Endpoint : `/api/v1/articles`
 - Header :
-    - X-Api-Key : "your secret api key"
+  - Accept: application/json
+  
+Response :
 
-## Create Product
+```json 
+[
+  {
+    "id": 1,
+    "title": "My First Article",
+    "content": "This is the content",
+    "createAt": "2025-09-06T14:02:04.983884"
+  }
+]
+
+```
+
+## 🔹 Search Articles by Title
+
+Request :
+- Method : GET
+- Endpoint : `/api/v1/articles/search?title=first`
+- Header :
+    - Accept: application/json
+
+Response :
+
+```json 
+[
+  {
+    "id": 1,
+    "title": "My First Article",
+    "content": "This is the content",
+    "createAt": "2025-09-06T14:02:04.983884"
+  }
+]
+
+```
+
+## 🔹 Create Article
 
 Request :
 - Method : POST
-- Endpoint : `/api/products`
+- Endpoint : `/api/v1/articles`
 - Header :
     - Content-Type: application/json
     - Accept: application/json
+  
+
 - Body :
 
 ```json 
 {
-    "id" : "string, unique",
-    "name" : "string",
-    "price" : "long",
-    "quantity" : "integer"
+  "title": "New Article",
+  "content": "This is the content"
 }
 ```
 
@@ -31,59 +67,31 @@ Response :
 
 ```json 
 {
-    "code" : "number",
-    "status" : "string",
-    "data" : {
-         "id" : "string, unique",
-         "name" : "string",
-         "price" : "long",
-         "quantity" : "integer",
-         "createdAt" : "date",
-         "updatedAt" : "date"
-     }
+  "status": "success",
+  "message": "Article created successfully",
+  "data": {
+    "id": 2,
+    "title": "New Article",
+    "content": "This is the content",
+    "createAt": "2025-09-06T14:20:00.123456"
+  }
 }
+
 ```
 
-## Get Product
-
-Request :
-- Method : GET
-- Endpoint : `/api/products/{id_product}`
-- Header :
-    - Accept: application/json
-
-Response :
-
-```json 
-{
-    "code" : "number",
-    "status" : "string",
-    "data" : {
-         "id" : "string, unique",
-         "name" : "string",
-         "price" : "long",
-         "quantity" : "integer",
-         "createdAt" : "date",
-         "updatedAt" : "date"
-     }
-}
-```
-
-## Update Product
+## 🔹 Update Article
 
 Request :
 - Method : PUT
-- Endpoint : `/api/products/{id_product}`
+- Endpoint : `/api/v1/articles/1`
 - Header :
-    - Content-Type: application/json
     - Accept: application/json
-- Body :
 
-```json 
+body:
+```json
 {
-    "name" : "string",
-    "price" : "long",
-    "quantity" : "integer"
+  "title": "Updated Title",
+  "content": "Updated Content"
 }
 ```
 
@@ -91,62 +99,23 @@ Response :
 
 ```json 
 {
-    "code" : "number",
-    "status" : "string",
-    "data" : {
-         "id" : "string, unique",
-         "name" : "string",
-         "price" : "long",
-         "quantity" : "integer",
-         "createdAt" : "date",
-         "updatedAt" : "date"
-     }
+  "status": "success",
+  "message": "Article updated successfully",
+  "data": {
+    "id": 1,
+    "title": "Updated Title",
+    "content": "Updated Content",
+    "createAt": "2025-09-06T14:02:04.983884"
+  }
 }
+
 ```
 
-## List Product
-
-Request :
-- Method : GET
-- Endpoint : `/api/products`
-- Header :
-    - Accept: application/json
-- Query Param :
-    - size : number,
-    - page : number
-
-Response :
-
-```json 
-{
-    "code" : "number",
-    "status" : "string",
-    "data" : [
-        {
-             "id" : "string, unique",
-             "name" : "string",
-             "price" : "long",
-             "quantity" : "integer",
-             "createdAt" : "date",
-             "updatedAt" : "date"
-        },
-        {
-             "id" : "string, unique",
-             "name" : "string",
-             "price" : "long",
-             "quantity" : "integer",
-             "createdAt" : "date",
-             "updatedAt" : "date"
-         }
-    ]
-}
-```
-
-## Delete Product
+## 🔹 Delete Article
 
 Request :
 - Method : DELETE
-- Endpoint : `/api/products/{id_product}`
+- Endpoint : `/api/v1/articles/{id_article}`
 - Header :
     - Accept: application/json
 
@@ -154,7 +123,27 @@ Response :
 
 ```json 
 {
-    "code" : "number",
-    "status" : "string"
+  "status": "success",
+  "message": "Article deleted successfully",
+  "data": {
+    "id": 1,
+    "title": "Updated Title",
+    "content": "Updated Content",
+    "createAt": "2025-09-06T14:02:04.983884"
+  }
 }
+
 ```
+
+## 🐳 Useful Docker Commands
+### Stop container:
+```bash
+docker stop articles-postgres
+```
+```bash
+docker start articles-postgres
+```
+```bash
+docker exec -it articles-postgres psql -U postgres -d articledb
+```
+
